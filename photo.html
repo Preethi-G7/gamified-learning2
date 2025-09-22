@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Photosynthesis Elements</title>
+  <style>
+    body {
+      font-family: 'Trebuchet MS', sans-serif;
+      background: linear-gradient(180deg, #d4fc79, #96e6a1);
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 20px 0;
+      font-size: 36px;
+      color: #2b8a3e;
+    }
+
+    /* Scroll container for content */
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      padding-bottom: 100px; /* space for button */
+    }
+
+    /* Instruction box */
+    .instruction {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-size: 14px;
+      color: #2b2b2b;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      font-weight: bold;
+      z-index: 10;
+    }
+
+    /* Cards */
+    .card {
+      max-width: 600px;
+      margin: 15px auto;
+      background: #fff;
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      font-size: 17px;
+      line-height: 1.6em;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.3s;
+    }
+    .card:hover {
+      transform: scale(1.02);
+      background: #eaffea;
+    }
+
+    .icon {
+      font-size: 22px;
+      margin-right: 8px;
+    }
+
+    /* Descriptions */
+    .desc {
+      margin-top: 8px;
+      padding-left: 30px;
+      display: none;
+      font-size: 15px;
+      color: #333;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+    .desc.show {
+      display: block;
+      opacity: 1;
+    }
+
+    /* Next button */
+    #nextBtn {
+      position: fixed;
+      bottom: 20px;
+      right: 30px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      background: #2b8a3e;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+      display: none;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      z-index: 10;
+    }
+    #nextBtn:hover { background: #237232; }
+
+    /* Floating leaves background */
+    .leaf {
+      position: fixed;
+      font-size: 22px;
+      animation: float 10s linear infinite;
+      opacity: 0.6;
+      z-index: 0;
+    }
+    @keyframes float {
+      from { transform: translateY(0) rotate(0); opacity: 0.8; }
+      to { transform: translateY(900px) rotate(360deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="instruction">👉 Click on all icons to continue</div>
+
+  <h1>Key Elements of Photosynthesis</h1>
+
+  <div class="content">
+    <div class="card" onclick="showDesc('sun')">
+      <span class="icon">☀️</span><b>Sunlight</b>
+      <div id="desc-sun" class="desc">Provides the energy plants use to drive photosynthesis.</div>
+    </div>
+
+    <div class="card" onclick="showDesc('water')">
+      <span class="icon">💧</span><b>Water (H₂O)</b>
+      <div id="desc-water" class="desc">Absorbed by roots; split into hydrogen and oxygen during photosynthesis.</div>
+    </div>
+
+    <div class="card" onclick="showDesc('co2')">
+      <span class="icon">🌫️</span><b>Carbon Dioxide (CO₂)</b>
+      <div id="desc-co2" class="desc">Taken from the air; carbon is used to build glucose.</div>
+    </div>
+
+    <div class="card" onclick="showDesc('atp')">
+      <span class="icon">⚡</span><b>ATP</b>
+      <div id="desc-atp" class="desc">The energy currency of the cell; powers the reactions that make glucose.</div>
+    </div>
+
+    <div class="card" onclick="showDesc('glucose')">
+      <span class="icon">🍬</span><b>Glucose</b>
+      <div id="desc-glucose" class="desc">The sugar plants produce; used for growth and energy storage.</div>
+    </div>
+
+    <div class="card" onclick="showDesc('oxygen')">
+      <span class="icon">🌬️</span><b>Oxygen (O₂)</b>
+      <div id="desc-oxygen" class="desc">A byproduct released into the air, essential for humans and animals.</div>
+    </div>
+  </div>
+
+  <button id="nextBtn" onclick="nextPage()">Next → Animation</button>
+
+  <!-- Floating leaves -->
+  <div class="leaf" style="left:10%; top:-60px;">🍃</div>
+  <div class="leaf" style="left:50%; top:-120px; animation-delay:2s;">🍂</div>
+  <div class="leaf" style="left:80%; top:-180px; animation-delay:4s;">🍃</div>
+
+  <script>
+    let revealed = {
+      sun:false, water:false, co2:false, atp:false, glucose:false, oxygen:false
+    };
+
+    function showDesc(id){
+      const desc = document.getElementById("desc-"+id);
+      if(!desc.classList.contains("show")){
+        desc.classList.add("show");
+        revealed[id] = true;
+        checkAllRevealed();
+      }
+    }
+
+    function checkAllRevealed(){
+      if(Object.values(revealed).every(v=>v)){
+        document.getElementById("nextBtn").style.display = "inline-block";
+      }
+    }
+
+    function nextPage(){
+      window.location.href = "animation.html";
+    }
+  </script>
+</body>
+</html>

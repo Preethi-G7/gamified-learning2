@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Choose Your Subject | Learn with Fun!</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Baloo 2', cursive;
+    margin: 0; padding: 0;
+    display: flex; justify-content: center; align-items: center;
+    min-height: 100vh;
+    transition: background 0.5s, color 0.5s;
+    cursor: url('https://cdn-icons-png.flaticon.com/512/32/32339.png'), auto;
+  }
+
+  body.light { background: linear-gradient(to bottom, #87CEFA, #f0fff0); color: #2e3a59; }
+  body.dark { background: linear-gradient(to bottom, #0b0c2a, #1c1f4a); color: #fff; }
+
+  .main-container { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 25px; text-align: center; }
+
+  .avatar-section { position: relative; }
+  .avatar-img { width: 120px; height: 120px; border-radius: 50%; margin-bottom: 10px; }
+
+  .speech-bubble {
+    background: #fff; padding: 15px 20px; border-radius: 20px;
+    position: relative; max-width: 300px; font-size: 1.1em; color: #333;
+    margin-bottom: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  }
+  body.dark .speech-bubble { background: rgba(0,0,0,0.8); color: #fff; }
+  .speech-bubble::after {
+    content: ''; position: absolute; bottom: -15px; left: 40px;
+    border-width: 15px 10px 0; border-style: solid;
+    border-color: #fff transparent transparent transparent;
+  }
+  body.dark .speech-bubble::after { border-color: rgba(0,0,0,0.8) transparent transparent transparent; }
+
+  h1 { font-size: 2.5em; }
+  .subject-container { display: flex; justify-content: center; flex-wrap: wrap; gap: 50px; }
+
+  .subject-card {
+    background: #fff; padding: 20px; border-radius: 20px;
+    width: 180px; text-align: center; cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+    font-size: 1.2em;
+  }
+  body.dark .subject-card { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); color: #fff; }
+  .subject-card:hover { transform: scale(1.1) translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+
+  .nav-controls { position: fixed; top: 20px; right: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 1000; }
+  .language-container { display: flex; align-items: center; gap: 10px; font-size: 1em; color: inherit; }
+
+  #languageSelect {
+    padding: 5px 10px; font-size: 1em; border-radius: 8px; border: 1px solid currentColor;
+    cursor: pointer; background: rgba(255,255,255,0.9); color: #333;
+  }
+  body.dark #languageSelect { background: rgba(0,0,0,0.7); color: #fff; border-color: #fff; }
+
+  .theme-btn, .music-btn {
+    padding: 8px 15px; border: none; border-radius: 10px; cursor: pointer;
+    font-weight: bold; background: rgba(255,255,255,0.9); color: #333; transition: all 0.3s;
+  }
+  body.dark .theme-btn, body.dark .music-btn { background: rgba(0,0,0,0.7); color: #fff; }
+  .music-btn { position: fixed; top: 20px; left: 20px; }
+
+  /* Popup modal */
+  .popup {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    display: none; justify-content: center; align-items: center;
+    background: rgba(0,0,0,0.5); z-index: 2000;
+  }
+  .popup-content {
+    background: #fff; padding: 20px 30px; border-radius: 15px;
+    text-align: center; max-width: 350px; font-size: 1.2em;
+  }
+  body.dark .popup-content { background: #1c1f4a; color: #fff; }
+  .close-btn {
+    margin-top: 20px; padding: 8px 15px; border: none;
+    border-radius: 8px; cursor: pointer; font-weight: bold;
+    background: #87CEFA; color: #000;
+  }
+</style>
+</head>
+<body>
+<div class="nav-controls">
+  <div class="language-container">
+    <span id="langLabel">Language:</span>
+    <select id="languageSelect" onchange="changeLanguage()">
+      <option value="en">English</option>
+      <option value="hi">हिंदी</option>
+    </select>
+  </div>
+  <button class="theme-btn" onclick="toggleTheme()">🌞 / 🌙</button>
+</div>
+
+<button class="music-btn" onclick="toggleMusic()">Play Music 🎵</button>
+<audio id="bgMusic" loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<div class="main-container">
+  <div class="avatar-section">
+    <div class="speech-bubble" id="avatarSpeech">Hey! Thanks for choosing me! Let's start our adventure together!</div>
+    <img src="" alt="Chosen Avatar" id="chosenAvatar" class="avatar-img">
+  </div>
+
+  <h1 id="chooseTitle">Choose a Subject</h1>
+  <div class="subject-container">
+    <div class="subject-card" onclick="openMathPopup()" id="mathCard">📐 Math</div>
+    <div class="subject-card" onclick="location.href='science.html'" id="scienceCard">🔬 Science</div>
+  </div>
+</div>
+
+<!-- Popup for Math -->
+<div class="popup" id="mathPopup">
+  <div class="popup-content">
+    <p id="mathPopupText">📐 Coming soon, stay tuned for the Math adventure!</p>
+    <button class="close-btn" onclick="closeMathPopup()">Close</button>
+  </div>
+</div>
+
+<script>
+let musicPlaying = false;
+const body = document.body;
+const music = document.getElementById('bgMusic');
+const avatarImg = document.getElementById('chosenAvatar');
+
+// Load saved theme and avatar
+window.onload = () => {
+  // Theme
+  const savedTheme = localStorage.getItem('theme') || 'day';
+  body.classList.remove('light','dark','day','night');
+  if(savedTheme==='day') body.classList.add('light');
+  else body.classList.add('dark');
+
+  // Avatar
+  const selectedAvatar = localStorage.getItem('avatar') || '';
+  if(selectedAvatar==='girl') avatarImg.src='images/girl.png';
+  else if(selectedAvatar==='boy') avatarImg.src='images/boy.png';
+  else if(selectedAvatar==='alien') avatarImg.src='images/alienavatar.png';
+
+  // Language continuation
+  const savedLang = localStorage.getItem('lang') || 'en';
+  document.getElementById('languageSelect').value = savedLang;
+  applyLanguage(savedLang);
+};
+
+// Theme toggle
+function toggleTheme(){
+  if(body.classList.contains('light')){
+    body.classList.replace('light','dark');
+    localStorage.setItem('theme','night');
+  } else {
+    body.classList.replace('dark','light');
+    localStorage.setItem('theme','day');
+  }
+}
+
+// Music toggle
+function toggleMusic(){
+  if(musicPlaying){ music.pause(); musicPlaying=false; document.querySelector('.music-btn').innerText="Play Music 🎵"; }
+  else{ music.play(); musicPlaying=true; document.querySelector('.music-btn').innerText="Pause Music ⏸"; }
+}
+
+// Language data
+const langData = {
+  en: {
+    avatarSpeech: "Hey! Thanks for choosing me! Let's start our adventure together!",
+    chooseTitle: "Choose a Subject",
+    mathCard: "📐 Math",
+    scienceCard: "🔬 Science",
+    mathPopupText: "📐 Coming soon, stay tuned for the Math adventure!",
+    langLabel: "Language:"
+  },
+  hi: {
+    avatarSpeech: "अरे! मुझे चुनने के लिए धन्यवाद! चलो अपनी साहसिक यात्रा शुरू करें!",
+    chooseTitle: "विषय चुनें",
+    mathCard: "📐 गणित",
+    scienceCard: "🔬 विज्ञान",
+    mathPopupText: "📐 जल्द आ रहा है, गणित साहसिक के लिए प्रतीक्षा करें!",
+    langLabel: "भाषा:"
+  }
+};
+
+// Apply language
+function applyLanguage(lang){
+  document.getElementById('avatarSpeech').innerText = langData[lang].avatarSpeech;
+  document.getElementById('chooseTitle').innerText = langData[lang].chooseTitle;
+  document.getElementById('mathCard').innerText = langData[lang].mathCard;
+  document.getElementById('scienceCard').innerText = langData[lang].scienceCard;
+  document.getElementById('mathPopupText').innerText = langData[lang].mathPopupText;
+  document.getElementById('langLabel').innerText = langData[lang].langLabel;
+}
+
+// On language change
+document.getElementById('languageSelect').onchange = function(){
+  const selectedLang = this.value;
+  localStorage.setItem('lang', selectedLang);
+  applyLanguage(selectedLang);
+}
+
+// Popup functions
+function openMathPopup(){ document.getElementById('mathPopup').style.display = 'flex'; }
+function closeMathPopup(){ document.getElementById('mathPopup').style.display = 'none'; }
+
+</script>
+</body>
+</html>

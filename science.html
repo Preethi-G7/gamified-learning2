@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Science Adventure | Learn with Fun!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Baloo 2', cursive;
+      margin: 0;
+      text-align: center;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      transition: background 0.5s, color 0.5s;
+      cursor: url('https://cdn-icons-png.flaticon.com/512/32/32339.png'), auto;
+    }
+
+    /* Day/Night themes */
+    body.light {
+      background: linear-gradient(to bottom, #a8edea, #fed6e3);
+      color: #2e3a59;
+    }
+    body.dark {
+      background: linear-gradient(to bottom, #0b0c2a, #1c1f4a);
+      color: #fff;
+    }
+
+    .header-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 20px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .header-container img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    h1 {
+      font-size: 2.7em;
+    }
+
+    p.tagline {
+      font-size: 1.3em;
+      margin-bottom: 40px;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    .choice-container {
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .choice-card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 20px;
+      width: 220px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      animation: popIn 1s ease forwards;
+      border: 3px solid #2e7d32;
+    }
+
+    .choice-card:hover {
+      transform: translateY(-10px) scale(1.07);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+    }
+
+    .choice-card img.topic {
+      width: 140px;
+      height: 140px;
+      z-index: 2;
+    }
+
+    .character {
+      position: absolute;
+      width: 100px;
+      bottom: -10px;
+      z-index: 1;
+    }
+
+    #girl { left: -40px; }
+    #boy { right: -40px; }
+
+    .choice-card h2 {
+      margin-top: 10px;
+      color: inherit;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: #fff;
+      padding: 30px;
+      border-radius: 20px;
+      width: 300px;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+      animation: scaleIn 0.5s ease;
+    }
+
+    .modal-content h3 { margin-bottom: 15px; color: inherit; }
+    .close-btn {
+      background: #ff6584;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .close-btn:hover { background: #e74c3c; }
+
+    @keyframes fadeIn { from {opacity:0; transform:translateY(-20px);} to {opacity:1; transform:translateY(0);} }
+    @keyframes popIn { from {opacity:0; transform:scale(0.8);} to {opacity:1; transform:scale(1);} }
+    @keyframes scaleIn { from {transform:scale(0.7);} to {transform:scale(1);} }
+  </style>
+</head>
+<body>
+  <div class="header-container">
+    <!-- Chosen avatar will appear beside the heading -->
+    <img src="" alt="Chosen Avatar" id="chosenAvatarHeader">
+    <h1 id="scienceHeading">Welcome to Science World 🔬</h1>
+  </div>
+
+  <p class="tagline" id="scienceTagline">
+    Explore the world of Plants 🌱 and Animals 🐾.<br> Click on a character to start your adventure!
+  </p>
+
+  <div class="choice-container">
+    <div class="choice-card" onclick="location.href='plant.html'">
+      <img src="images/plant.png" alt="Plant Topic" class="topic">
+      <h2 id="plantText">Plant</h2>
+      <img src="images/girlwpen.png" alt="Girl Character" class="character" id="girl">
+    </div>
+
+    <div class="choice-card" onclick="openPopup()">
+      <img src="images/dog.jpg" alt="Animal Topic" class="topic">
+      <h2 id="animalText">Animal</h2>
+      <img src="images/boywbooks.png" alt="Boy Character" class="character" id="boy">
+    </div>
+  </div>
+
+  <div id="animalModal" class="modal">
+    <div class="modal-content">
+      <h3 id="modalTitle">Stay Tuned! 🐾</h3>
+      <p id="modalText">Animal adventures are coming soon. Keep exploring with us!</p>
+      <button class="close-btn" onclick="closePopup()">Close</button>
+    </div>
+  </div>
+
+  <script>
+    // Popup functions
+    function openPopup() { document.getElementById("animalModal").style.display = "flex"; }
+    function closePopup() { document.getElementById("animalModal").style.display = "none"; }
+
+    // Avatar continuation
+    const selectedAvatar = localStorage.getItem('avatar') || '';
+    if(selectedAvatar){
+      let avatarSrc = '';
+      if(selectedAvatar === 'girl') avatarSrc = 'images/girl.png';
+      else if(selectedAvatar === 'boy') avatarSrc = 'images/boy.png';
+      else if(selectedAvatar === 'alien') avatarSrc = 'images/alienavatar.png';
+      document.getElementById('chosenAvatarHeader').src = avatarSrc;
+    }
+
+    // Theme continuation
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedTheme = localStorage.getItem('theme') || 'day';
+      document.body.classList.remove('light', 'dark', 'day', 'night');
+      if (savedTheme === 'day' || savedTheme === 'light') {
+        document.body.classList.add('light');
+        localStorage.setItem('theme', 'day');
+      } else {
+        document.body.classList.add('dark');
+        localStorage.setItem('theme', 'night');
+      }
+    });
+
+    function toggleTheme() {
+      if (document.body.classList.contains('light')) {
+        document.body.classList.replace('light', 'dark');
+        localStorage.setItem('theme', 'night');
+      } else {
+        document.body.classList.replace('dark', 'light');
+        localStorage.setItem('theme', 'day');
+      }
+    }
+
+    // Language continuation from index.html
+    const lang = localStorage.getItem('lang') || 'en';
+    const texts = {
+      en: {
+        heading: "Welcome to Science World 🔬",
+        tagline: "Explore the world of Plants 🌱 and Animals 🐾.<br> Click on a character to start your adventure!",
+        plant: "Plant",
+        animal: "Animal",
+        modalTitle: "Stay Tuned! 🐾",
+        modalText: "Animal adventures are coming soon. Keep exploring with us!"
+      },
+      hi: {
+        heading: "विज्ञान की दुनिया में आपका स्वागत है 🔬",
+        tagline: "पौधों 🌱 और जानवरों 🐾 की दुनिया का अन्वेषण करें।<br>एक चरित्र पर क्लिक करके अपना साहसिक कार्य शुरू करें!",
+        plant: "पौधा",
+        animal: "जानवर",
+        modalTitle: "जारी रहें! 🐾",
+        modalText: "जानवरों के साहसिक कार्य जल्द ही आ रहे हैं। हमारे साथ खोज करना जारी रखें!"
+      }
+    };
+
+    document.getElementById('scienceHeading').innerHTML = texts[lang].heading;
+    document.getElementById('scienceTagline').innerHTML = texts[lang].tagline;
+    document.getElementById('plantText').innerHTML = texts[lang].plant;
+    document.getElementById('animalText').innerHTML = texts[lang].animal;
+    document.getElementById('modalTitle').innerHTML = texts[lang].modalTitle;
+    document.getElementById('modalText').innerHTML = texts[lang].modalText;
+  </script>
+</body>
+</html>

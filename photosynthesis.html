@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Photosynthesis Explainer</title>
+  <!-- Fun Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Trebuchet MS', sans-serif;
+      background: linear-gradient(180deg, #d4fc79, #96e6a1);
+      padding: 40px;
+      text-align: center;
+      overflow: hidden;
+    }
+    h1 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 40px;
+      color: #2b8a3e;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    #avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #2b8a3e;
+      display: inline-block; /* ensure visible */
+    }
+
+    /* Bullet points */
+    .definition {
+      max-width: 750px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.95);
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      text-align: left;
+    }
+    ul {
+      list-style-type: "🌿 ";
+      padding-left: 20px;
+    }
+    li {
+      font-size: 18px;
+      line-height: 1.7em;
+      margin: 15px 0;
+      opacity: 0;
+      transform: translateY(15px);
+      animation: fadeInUp 0.8s forwards;
+    }
+    li:nth-child(1) { animation-delay: 0.5s; }
+    li:nth-child(2) { animation-delay: 2s; }
+    li:nth-child(3) { animation-delay: 3.5s; }
+    li:nth-child(4) { animation-delay: 5s; }
+    li:nth-child(5) { animation-delay: 6.5s; }
+
+    .highlight { font-weight: bold; color: #2b8a3e; }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Floating leaves */
+    .leaf {
+      position: absolute;
+      font-size: 22px;
+      animation: float 8s linear infinite;
+      opacity: 0.6;
+    }
+    @keyframes float {
+      from { transform: translateY(0) rotate(0); opacity: 0.8; }
+      to { transform: translateY(800px) rotate(360deg); opacity: 0; }
+    }
+
+    /* Next button */
+    button {
+      margin-top: 30px;
+      padding: 12px 22px;
+      border: none;
+      border-radius: 8px;
+      background: #2b8a3e;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+      display: none;
+    }
+    button:hover { background: #237232; }
+  </style>
+</head>
+<body>
+  <h1>
+    <span>Photosynthesis</span>
+    <img id="avatar" src="" alt="Avatar">
+  </h1>
+
+  <div class="definition">
+    <ul>
+      <li>Photosynthesis is the process by which <span class="highlight">green plants</span> make their own food.</li>
+      <li>It converts <span class="highlight">light energy</span> into <span class="highlight">chemical energy</span>.</li>
+      <li>Plants absorb <span class="highlight">water (H₂O)</span> from the soil and <span class="highlight">carbon dioxide (CO₂)</span> from the air.</li>
+      <li>Using <span class="highlight">sunlight</span>, they produce <span class="highlight">glucose</span> (sugar) for energy and growth.</li>
+      <li><span class="highlight">Oxygen (O₂)</span> is released as a byproduct, making life on Earth possible.</li>
+    </ul>
+  </div>
+
+  <button id="nextBtn" onclick="nextStep()">Next →</button>
+
+  <!-- Floating leaves -->
+  <div class="leaf" style="left:10%; top:-50px;">🍃</div>
+  <div class="leaf" style="left:50%; top:-100px; animation-delay:2s;">🍂</div>
+  <div class="leaf" style="left:80%; top:-150px; animation-delay:4s;">🍃</div>
+
+  <script>
+    window.onload = () => {
+      const avatarName = localStorage.getItem("avatar");
+      const avatarImg = document.getElementById("avatar");
+
+      if (avatarName && avatarImg) {
+        let avatarSrc = "";
+
+        if (avatarName === "girl") avatarSrc = "images/girl.png";
+        else if (avatarName === "boy") avatarSrc = "images/boy.png";
+        else if (avatarName === "alien") avatarSrc = "images/alienavatar.png";
+
+        avatarImg.src = avatarSrc;
+        avatarImg.style.display = "inline-block";
+      } else {
+        avatarImg.style.display = "none"; // hide if none selected
+      }
+
+      // Show next button after bullets animation
+      setTimeout(() => {
+        document.getElementById("nextBtn").style.display = "inline-block";
+      }, 8000);
+    };
+
+    function nextStep() {
+      window.location.href = "photo.html";
+    }
+  </script>
+</body>
+</html>

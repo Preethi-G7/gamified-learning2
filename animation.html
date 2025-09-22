@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Photosynthesis Animation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: linear-gradient(180deg, #89f7fe, #66a6ff);
+      overflow: hidden;
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    #plant {
+      font-size: 80px;
+      margin: 20px;
+    }
+    .sunray {
+      position: absolute;
+      top: 0;
+      font-size: 40px;
+      animation: pulse 2s infinite alternate;
+    }
+    .drop {
+      position: absolute;
+      bottom: 100px;
+      font-size: 28px;
+      animation: fall 3s linear infinite;
+    }
+    .bubble {
+      position: absolute;
+      font-size: 26px;
+      animation: float 4s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      from { opacity: 0.3; transform: translateY(0); }
+      to { opacity: 1; transform: translateY(20px); }
+    }
+    @keyframes fall {
+      from { transform: translateY(0); }
+      to { transform: translateY(300px); opacity: 0; }
+    }
+    @keyframes float {
+      from { transform: translateY(0); opacity: 0.6; }
+      to { transform: translateY(-200px); opacity: 0; }
+    }
+    #result {
+      margin-top: 30px;
+      font-size: 22px;
+      opacity: 0;
+      transition: opacity 2s;
+    }
+    #nextBtn {
+      margin-top: 30px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background: #2b8a3e;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+      display: none;
+    }
+    #nextBtn:hover { background: #237232; }
+  </style>
+</head>
+<body>
+  <div id="plant">🌱</div>
+
+  <!-- Sunlight -->
+  <div class="sunray" style="left:40%">☀️</div>
+  <div class="sunray" style="left:60%">☀️</div>
+
+  <!-- Water drops -->
+  <div class="drop" style="left:30%">💧</div>
+  <div class="drop" style="left:70%">💧</div>
+
+  <!-- CO2 bubbles -->
+  <div class="bubble" style="left:20%; bottom:50px">🌫️</div>
+  <div class="bubble" style="left:80%; bottom:80px">🌫️</div>
+
+  <div id="result">➡️ Produces 🍬 Glucose + 🌬️ Oxygen!</div>
+
+  <button id="nextBtn" onclick="goToGame()">Start Game →</button>
+
+  <script>
+    // Show result after a short delay
+    setTimeout(()=>{
+      document.getElementById("result").style.opacity = 1;
+    }, 3000);
+
+    // Show Next button after result
+    setTimeout(()=>{
+      document.getElementById("nextBtn").style.display = "inline-block";
+    }, 5000);
+
+    function goToGame(){
+      window.location.href = "new.html";
+    }
+  </script>
+</body>
+</html>
